@@ -177,7 +177,7 @@ git init</code></pre>
         <p>Connect the folder to the GitHub repo and pull the app files:</p>
         <pre><code>git remote add origin https://github.com/sourabhrustagi/flashCardReact.git
 git pull origin main</code></pre>
-        <p>This gives you the finished project. Steps 3 to 6 explain how to install, run and check it. Step 7 explains how the code is organised, and the file reference shows what each file contains.</p>
+        <p>This gives you the finished project. Steps 3 to 6 explain how to install, run and check it. Step 7 lists every file to create, in order, with its code.</p>
       </section>
 
       <section>
@@ -211,66 +211,11 @@ npm install</code></pre>
       </section>
 
       <section>
-        <h2>7. Project architecture</h2>
-        <p>The app is a small component tree. Navigation state lives in one reducer, and components only read values and call actions. Data flows down through props, and events flow up through callbacks.</p>
-        <pre><code>flashCard/
-├── index.html                  Page shell with the #root element
-├── vite.config.ts              Vite setup with the React plugin and Pages base path
-├── tsconfig.json               TypeScript settings (strict mode)
-├── package.json                Scripts and pinned dependencies
-├── run.sh                      Installs (if needed) and starts the dev server
-├── steps.html                  This page
-└── src/
-    ├── main.tsx                Mounts &lt;App /&gt; into #root
-    ├── App.tsx                 Page layout: wires the hook to the components
-    ├── index.css               Global styles and theme tokens
-    ├── types/
-    │   └── card.ts             The Card type
-    ├── data/
-    │   └── cards.ts            The list of cards
-    ├── hooks/
-    │   ├── flashcardsReducer.ts Pure state transitions (next, previous, flip)
-    │   └── useFlashcards.ts    Connects the reducer to components
-    └── components/
-        ├── FlashCard.tsx       Presents one card; calls onFlip when clicked
-        ├── ProgressBar.tsx     Shows "Card X of Y" and a fill bar
-        └── Controls.tsx        Previous, Flip and Next buttons</code></pre>
-
-        <h3>Layers</h3>
-        <table>
-          <thead>
-            <tr><th>Layer</th><th>Where</th><th>Responsibility</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Types</td><td><code>src/types/</code></td><td>Shared shapes, such as <code>Card</code>. No runtime code.</td></tr>
-            <tr><td>Data</td><td><code>src/data/cards.ts</code></td><td>Plain data. No React imports, so it's easy to edit or replace.</td></tr>
-            <tr><td>State</td><td><code>src/hooks/</code></td><td>The reducer holds the rules, and <code>useFlashcards</code> exposes values and actions. The only place that holds state.</td></tr>
-            <tr><td>Presentation</td><td><code>src/components/</code></td><td>Stateless, reusable components that receive typed props and call callbacks.</td></tr>
-            <tr><td>Styling</td><td><code>src/index.css</code></td><td>Class-based styles and CSS variables for light and dark themes.</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Rules to keep it simple</h3>
-        <ul>
-          <li>Keep navigation rules in <code>flashcardsReducer.ts</code>. Components should not change <code>index</code> or <code>flipped</code> directly.</li>
-          <li>Components take typed props and callbacks. They don't import <code>cards.ts</code>, so <code>App</code> passes them the current card.</li>
-          <li>Moving to another card always resets <code>flipped</code> to <code>false</code>. The reducer does this in the <code>next</code> and <code>previous</code> cases.</li>
-          <li>Add a new feature as a new file in <code>src/components/</code>, then import it in <code>App.tsx</code>.</li>
-        </ul>
-
-        <h3>Data flow</h3>
-        <pre><code>data/cards.ts ──► flashcardsReducer ──► useFlashcards (values, actions)
-                                              │
-                                             App
-               ├── ProgressBar  (current, total)
-               ├── FlashCard    (card, flipped, onFlip)  ──► flip() toggles flipped
-               └── Controls     (flipped, isFirst, isLast, onPrevious, onFlip, onNext)</code></pre>
-
-        <h3>File reference</h3>
-        <p>Create the folders in the terminal, then create each file at the path shown and write the content exactly as below. If you pulled the repo in step 2, the files already exist and this is only a reference:</p>
+        <h2>7. Create the files one by one</h2>
+        <p>Create the folders in the terminal, then create each file below at the path shown and paste its code exactly. Files are listed in the order that keeps imports working.</p>
         <pre><code>mkdir -p src/types src/data src/hooks src/components</code></pre>
 
-        <h3><code>package.json</code>: scripts and pinned dependencies</h3>
+        <h3>1. <code>package.json</code>: scripts and pinned dependencies</h3>
         <pre><code>{
   "name": "flash-card",
   "private": true,
@@ -294,11 +239,11 @@ npm install</code></pre>
   }
 }</code></pre>
 
-        <h3><code>.gitignore</code>: keep dependencies and build output out of git</h3>
+        <h3>2. <code>.gitignore</code>: keep dependencies and build output out of git</h3>
         <pre><code>node_modules
 dist</code></pre>
 
-        <h3><code>tsconfig.json</code>: TypeScript settings</h3>
+        <h3>3. <code>tsconfig.json</code>: TypeScript settings</h3>
         <p><code>strict</code> turns on full type checking. <code>noEmit</code> means TypeScript only checks types; Vite does the compiling.</p>
         <pre><code>{
   "compilerOptions": {
@@ -319,7 +264,7 @@ dist</code></pre>
   "include": ["src"]
 }</code></pre>
 
-        <h3><code>vite.config.ts</code>: React support and the GitHub Pages base path</h3>
+        <h3>4. <code>vite.config.ts</code>: React support and the GitHub Pages base path</h3>
         <pre><code>import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -329,7 +274,7 @@ export default defineConfig({
   base: process.env.GITHUB_ACTIONS ? '/flashCardReact/' : '/',
 });</code></pre>
 
-        <h3><code>index.html</code>: the page shell that loads the app</h3>
+        <h3>5. <code>index.html</code>: the page shell that loads the app</h3>
         <pre><code>&lt;!doctype html&gt;
 &lt;html lang="en"&gt;
   &lt;head&gt;
@@ -343,25 +288,13 @@ export default defineConfig({
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-        <h3><code>src/main.tsx</code>: mounts App into the page</h3>
-        <pre><code>import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import './index.css';
-
-createRoot(document.getElementById('root') as HTMLElement).render(
-  &lt;StrictMode&gt;
-    &lt;App /&gt;
-  &lt;/StrictMode&gt;,
-);</code></pre>
-
-        <h3><code>src/types/card.ts</code>: the Card type</h3>
+        <h3>6. <code>src/types/card.ts</code>: the Card type</h3>
         <pre><code>export interface Card {
   question: string;
   answer: string;
 }</code></pre>
 
-        <h3><code>src/data/cards.ts</code>: the flash card data</h3>
+        <h3>7. <code>src/data/cards.ts</code>: the flash card data</h3>
         <p>Each card is an object with a <code>question</code> and an <code>answer</code>. The repo has 8 cards; this shows the first two. Add more entries in the same shape:</p>
         <pre><code>import type { Card } from '../types/card';
 
@@ -377,7 +310,7 @@ export const cards: Card[] = [
   // add more { question, answer } objects here
 ];</code></pre>
 
-        <h3><code>src/hooks/flashcardsReducer.ts</code>: pure state transitions</h3>
+        <h3>8. <code>src/hooks/flashcardsReducer.ts</code>: pure state transitions</h3>
         <pre><code>import { cards } from '../data/cards';
 
 export interface FlashcardsState {
@@ -406,7 +339,7 @@ export function flashcardsReducer(state: FlashcardsState, action: FlashcardsActi
   }
 }</code></pre>
 
-        <h3><code>src/hooks/useFlashcards.ts</code>: connects the reducer to components</h3>
+        <h3>9. <code>src/hooks/useFlashcards.ts</code>: connects the reducer to components</h3>
         <pre><code>import { useReducer } from 'react';
 import { cards } from '../data/cards';
 import type { Card } from '../types/card';
@@ -442,36 +375,7 @@ export function useFlashcards(): FlashcardsView {
   };
 }</code></pre>
 
-        <h3><code>src/App.tsx</code>: page layout that wires the hook to the components</h3>
-        <pre><code>import { useFlashcards } from './hooks/useFlashcards';
-import FlashCard from './components/FlashCard';
-import ProgressBar from './components/ProgressBar';
-import Controls from './components/Controls';
-
-export default function App() {
-  const { card, index, total, flipped, isFirst, isLast, next, previous, flip } = useFlashcards();
-
-  return (
-    &lt;main className="app"&gt;
-      &lt;h1&gt;Flash Cards&lt;/h1&gt;
-
-      &lt;ProgressBar current={index + 1} total={total} /&gt;
-
-      &lt;FlashCard card={card} flipped={flipped} onFlip={flip} /&gt;
-
-      &lt;Controls
-        flipped={flipped}
-        isFirst={isFirst}
-        isLast={isLast}
-        onPrevious={previous}
-        onFlip={flip}
-        onNext={next}
-      /&gt;
-    &lt;/main&gt;
-  );
-}</code></pre>
-
-        <h3><code>src/components/FlashCard.tsx</code>: one card that flips on click</h3>
+        <h3>10. <code>src/components/FlashCard.tsx</code>: one card that flips on click</h3>
         <pre><code>import type { Card } from '../types/card';
 
 interface FlashCardProps {
@@ -502,7 +406,7 @@ export default function FlashCard({ card, flipped, onFlip }: FlashCardProps) {
   );
 }</code></pre>
 
-        <h3><code>src/components/ProgressBar.tsx</code>: "Card X of Y" and a fill bar</h3>
+        <h3>11. <code>src/components/ProgressBar.tsx</code>: "Card X of Y" and a fill bar</h3>
         <pre><code>interface ProgressBarProps {
   current: number;
   total: number;
@@ -529,7 +433,7 @@ export default function ProgressBar({ current, total }: ProgressBarProps) {
   );
 }</code></pre>
 
-        <h3><code>src/components/Controls.tsx</code>: Previous, Flip and Next buttons</h3>
+        <h3>12. <code>src/components/Controls.tsx</code>: Previous, Flip and Next buttons</h3>
         <pre><code>interface ControlsProps {
   flipped: boolean;
   isFirst: boolean;
@@ -553,7 +457,48 @@ export default function Controls({ flipped, isFirst, isLast, onPrevious, onFlip,
   );
 }</code></pre>
 
-        <h3><code>src/index.css</code>: styles and light/dark theme</h3>
+        <h3>13. <code>src/App.tsx</code>: page layout that wires the hook to the components</h3>
+        <pre><code>import { useFlashcards } from './hooks/useFlashcards';
+import FlashCard from './components/FlashCard';
+import ProgressBar from './components/ProgressBar';
+import Controls from './components/Controls';
+
+export default function App() {
+  const { card, index, total, flipped, isFirst, isLast, next, previous, flip } = useFlashcards();
+
+  return (
+    &lt;main className="app"&gt;
+      &lt;h1&gt;Flash Cards&lt;/h1&gt;
+
+      &lt;ProgressBar current={index + 1} total={total} /&gt;
+
+      &lt;FlashCard card={card} flipped={flipped} onFlip={flip} /&gt;
+
+      &lt;Controls
+        flipped={flipped}
+        isFirst={isFirst}
+        isLast={isLast}
+        onPrevious={previous}
+        onFlip={flip}
+        onNext={next}
+      /&gt;
+    &lt;/main&gt;
+  );
+}</code></pre>
+
+        <h3>14. <code>src/main.tsx</code>: mounts App into the page</h3>
+        <pre><code>import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './index.css';
+
+createRoot(document.getElementById('root') as HTMLElement).render(
+  &lt;StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/StrictMode&gt;,
+);</code></pre>
+
+        <h3>15. <code>src/index.css</code>: styles and light/dark theme</h3>
         <pre><code>:root {
   --bg: #f5f6fa;
   --text: #1f2330;
