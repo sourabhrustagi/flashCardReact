@@ -130,37 +130,18 @@ git init</code></pre>
       </section>
 
       <section>
-        <h2>2. Create the files</h2>
-        <p>
-          Create each file with the exact contents from this repo's history. Each file was committed on its own, so
-          use <code>git show &lt;hash&gt;:&lt;path&gt;</code>, for example <code>git show d988b2e:package.json</code>.
-          Or clone this repo and skip to step 3.
-        </p>
-        <table>
-          <thead>
-            <tr><th>File</th><th>Commit</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><code>.gitignore</code></td><td>69f4d71</td></tr>
-            <tr><td><code>package.json</code></td><td>d988b2e</td></tr>
-            <tr><td><code>package-lock.json</code></td><td>06696ee</td></tr>
-            <tr><td><code>vite.config.js</code></td><td>7f8add2</td></tr>
-            <tr><td><code>index.html</code></td><td>5da20e2</td></tr>
-            <tr><td><code>src/cards.js</code></td><td>e5ad74f</td></tr>
-            <tr><td><code>src/main.jsx</code></td><td>5ab1cce</td></tr>
-            <tr><td><code>src/components/FlashCard.jsx</code></td><td>95b055f</td></tr>
-            <tr><td><code>src/components/ProgressBar.jsx</code></td><td>e3849f4</td></tr>
-            <tr><td><code>src/App.jsx</code></td><td>c99bcdf</td></tr>
-            <tr><td><code>src/index.css</code></td><td>9036d51</td></tr>
-          </tbody>
-        </table>
-        <p class="muted">Commit hashes are from the original history. Your hashes will differ if you commit again.</p>
+        <h2>2. Get the source code in the terminal</h2>
+        <p>Connect the folder to the GitHub repo and pull the app files, including <code>.gitignore</code>, <code>package.json</code>, <code>vite.config.js</code>, <code>index.html</code> and <code>src/</code>:</p>
+        <pre><code>git remote add origin https://github.com/sourabhrustagi/flashCardReact.git
+git pull origin main</code></pre>
       </section>
 
       <section>
-        <h2>3. Install dependencies</h2>
-        <pre><code>npm install</code></pre>
-        <p>Installs React 18.3.1, Vite 5.4.11 and @vitejs/plugin-react 4.3.4, pinned in package.json.</p>
+        <h2>3. Install dependencies in the terminal</h2>
+        <p>Install the runtime dependencies, then the dev dependencies, with the pinned versions:</p>
+        <pre><code>npm install react@18.3.1 react-dom@18.3.1
+npm install -D vite@5.4.11 @vitejs/plugin-react@4.3.4</code></pre>
+        <p>Or run <code>npm install</code> to install everything already listed in <code>package.json</code>.</p>
       </section>
 
       <section>
@@ -186,7 +167,7 @@ npm run dev</code></pre>
         <p>Vite scaffolds <code>index.html</code>, <code>vite.config.js</code>, <code>package.json</code> and a
           starter <code>src/</code>. This repo replaces the starter files with the app code, and pins versions
           in <code>package.json</code>.</p>
-        <p class="muted">To create it by hand instead, follow steps 1 to 5 above. Each file is listed with its commit.</p>
+        <p class="muted">To build the same project from the terminal without the template, follow steps 1 to 5 above.</p>
       </section>
 
       <section>
