@@ -251,13 +251,19 @@ npm run dev</code></pre>
 ├── run.sh                  Installs (if needed) and starts the dev server
 ├── steps.html              This page
 └── src/
-    ├── main.jsx            Mounts <App /> into #root
-    ├── App.jsx             Owns app state: current index and flipped flag
-    ├── cards.js            Data: the list of { question, answer } cards
+    ├── main.tsx            Mounts &lt;App /&gt; into #root
+    ├── App.tsx             Page layout: wires the hook to the components
     ├── index.css           Global styles and theme tokens
+    ├── types/
+    │   └── card.ts         The Card type
+    ├── data/
+    │   └── cards.ts        The list of cards
+    ├── hooks/
+    │   └── useFlashcards.ts Navigation state and actions
     └── components/
-        ├── FlashCard.jsx   Presents one card; calls onFlip when clicked
-        └── ProgressBar.jsx Shows "Card X of Y" and a fill bar</code></pre>
+        ├── FlashCard.tsx   Presents one card; calls onFlip when clicked
+        ├── ProgressBar.tsx Shows "Card X of Y" and a fill bar
+        └── Controls.tsx    Previous, Flip and Next buttons</code></pre>
 
         <h2>File by file</h2>
         <p>Create the folders in the terminal, then create each file at the path shown and write the content exactly as below:</p>
@@ -593,8 +599,9 @@ body {
             <tr><th>Layer</th><th>Where</th><th>Responsibility</th></tr>
           </thead>
           <tbody>
-            <tr><td>Data</td><td><code>src/cards.js</code></td><td>Plain data. No React imports, so it's easy to edit or replace.</td></tr>
-            <tr><td>State</td><td><code>src/App.jsx</code></td><td>The only stateful component. Holds <code>index</code> and <code>flipped</code>, and exposes actions.</td></tr>
+            <tr><td>Types</td><td><code>src/types/</code></td><td>Shared shapes, such as <code>Card</code>. No runtime code.</td></tr>
+            <tr><td>Data</td><td><code>src/data/cards.ts</code></td><td>Plain data. No React imports, so it's easy to edit or replace.</td></tr>
+            <tr><td>State</td><td><code>src/hooks/useFlashcards.ts</code></td><td>Owns <code>index</code> and <code>flipped</code>, and exposes the values and actions. The only place that holds state.</td></tr>
             <tr><td>Presentation</td><td><code>src/components/</code></td><td>Stateless, reusable components that receive props and call callbacks.</td></tr>
             <tr><td>Styling</td><td><code>src/index.css</code></td><td>Class-based styles and CSS variables for light and dark themes.</td></tr>
           </tbody>
@@ -602,17 +609,19 @@ body {
 
         <h2>Rules to keep it simple</h2>
         <ul>
-          <li>Keep state in <code>App.jsx</code> until a second component needs it, then lift or share it.</li>
+          <li>Keep state in <code>useFlashcards</code>. Components get values through props and call actions through callbacks.</li>
           <li>Components take data and callbacks as props. They don't read <code>cards.js</code> directly, except through <code>App</code>.</li>
           <li>Moving to another card always resets <code>flipped</code> to <code>false</code>. This is handled in <code>goTo</code>.</li>
-          <li>Add a new feature as a new file in <code>src/components/</code>, then import it in <code>App.jsx</code>.</li>
+          <li>Add a new feature as a new file in <code>src/components/</code>, then import it in <code>App.tsx</code>.</li>
         </ul>
 
         <h2>Data flow</h2>
-        <pre><code>cards.js ──► App (index, flipped)
+        <pre><code>data/cards.ts ──► useFlashcards (index, flipped, actions)
+                        │
+                       App
                ├── ProgressBar  (current, total)
-               ├── FlashCard    (card, flipped, onFlip)  ──► onFlip toggles flipped
-               └── nav buttons  (goTo, flip)            ──► goTo updates index</code></pre>
+               ├── FlashCard    (card, flipped, onFlip)  ──► flip() toggles flipped
+               └── Controls     (flipped, isFirst, isLast, onPrevious, onFlip, onNext)</code></pre>
       </section>
 
       <h2 class="part">Part 3: Convert the project to TypeScript</h2>

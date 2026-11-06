@@ -1,7 +1,4 @@
-export interface Card {
-  question: string;
-  answer: string;
-}
+import type { Card } from '../types/card';
 
 export const cards: Card[] = [
   {

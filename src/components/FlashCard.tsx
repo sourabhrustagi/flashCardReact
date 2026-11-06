@@ -1,4 +1,4 @@
-import type { Card } from '../cards';
+import type { Card } from '../types/card';
 
 interface FlashCardProps {
   card: Card;
