@@ -1,4 +1,12 @@
-export default function FlashCard({ card, flipped, onFlip }) {
+import type { Card } from '../cards';
+
+interface FlashCardProps {
+  card: Card;
+  flipped: boolean;
+  onFlip: () => void;
+}
+
+export default function FlashCard({ card, flipped, onFlip }: FlashCardProps) {
   return (
     <button
       type="button"

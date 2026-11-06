@@ -615,9 +615,104 @@ body {
                └── nav buttons  (goTo, flip)            ──► goTo updates index</code></pre>
       </section>
 
+      <h2 class="part">Part 3: Convert the project to TypeScript</h2>
+      <p class="muted">Do this after Part 2. The JavaScript versions of the files in step 7 are the starting point. Part 3 replaces them.</p>
+
+      <section>
+        <h2>T1. Rename the source files</h2>
+        <p>Use <code>git mv</code> so git tracks the renames:</p>
+        <pre><code>git mv src/cards.js src/cards.ts
+git mv src/main.jsx src/main.tsx
+git mv src/App.jsx src/App.tsx
+git mv src/components/FlashCard.jsx src/components/FlashCard.tsx
+git mv src/components/ProgressBar.jsx src/components/ProgressBar.tsx
+git mv vite.config.js vite.config.ts</code></pre>
+        <p>Then change the script in <code>index.html</code> to load the TypeScript entry:</p>
+        <pre><code>&lt;script type="module" src="/src/main.tsx"&gt;&lt;/script&gt;</code></pre>
+      </section>
+
+      <section>
+        <h2>T2. Install TypeScript and the React type packages</h2>
+        <pre><code>npm install -D typescript@5.6.3 @types/react@18.3.12 @types/react-dom@18.3.1</code></pre>
+        <p>The versions are pinned to match the rest of <code>package.json</code>.</p>
+      </section>
+
+      <section>
+        <h2>T3. Add <code>tsconfig.json</code></h2>
+        <p>Create this file in the project root. <code>strict</code> turns on full type checking. <code>noEmit</code> means TypeScript only checks types; Vite does the compiling.</p>
+        <pre><code>{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}</code></pre>
+      </section>
+
+      <section>
+        <h2>T4. Add types to the code</h2>
+        <p>Define the card shape once in <code>src/cards.ts</code> and type the list:</p>
+        <pre><code>export interface Card {
+  question: string;
+  answer: string;
+}
+
+export const cards: Card[] = [
+  // same entries as before
+];</code></pre>
+        <p>Each component gets a props interface. In <code>src/components/FlashCard.tsx</code>:</p>
+        <pre><code>import type { Card } from '../cards';
+
+interface FlashCardProps {
+  card: Card;
+  flipped: boolean;
+  onFlip: () =&gt; void;
+}
+
+export default function FlashCard({ card, flipped, onFlip }: FlashCardProps) {
+  // same JSX as before
+}</code></pre>
+        <p>In <code>src/components/ProgressBar.tsx</code>, add the same pattern with <code>current: number</code> and <code>total: number</code>.</p>
+        <p>In <code>src/App.tsx</code>, type the state and the <code>goTo</code> function:</p>
+        <pre><code>const [index, setIndex] = useState&lt;number&gt;(0);
+const [flipped, setFlipped] = useState&lt;boolean&gt;(false);
+
+const goTo = (next: number): void =&gt; {
+  setIndex(next);
+  setFlipped(false);
+};</code></pre>
+        <p>In <code>src/main.tsx</code>, <code>getElementById</code> can return <code>null</code>, so cast it:</p>
+        <pre><code>createRoot(document.getElementById('root') as HTMLElement).render(</code></pre>
+        <p>Update imports to drop the <code>.js</code> and <code>.jsx</code> extensions, for example <code>import App from './App';</code>.</p>
+      </section>
+
+      <section>
+        <h2>T5. Type-check in the build</h2>
+        <p>In <code>package.json</code>, run the type check before the Vite build:</p>
+        <pre><code>"build": "tsc --noEmit &amp;&amp; vite build"</code></pre>
+      </section>
+
+      <section>
+        <h2>T6. Run it</h2>
+        <pre><code>npm run build
+npm run dev</code></pre>
+        <p>The build fails if there are type errors. Fix them, then open http://localhost:5173 and check the cards still flip and navigate.</p>
+      </section>
+
       <section>
         <h2>Adding cards</h2>
-        <p>Edit the <code>cards</code> array in <code>src/cards.js</code>. Each entry is <code>{ question, answer }</code>.</p>
+        <p>Edit the <code>cards</code> array in <code>src/cards.ts</code> (or <code>src/cards.js</code> before Part 3). Each entry is <code>{ question, answer }</code>.</p>
       </section>
     </main>
     <script>

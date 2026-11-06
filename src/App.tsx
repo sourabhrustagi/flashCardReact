@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { cards } from './cards.js';
-import FlashCard from './components/FlashCard.jsx';
-import ProgressBar from './components/ProgressBar.jsx';
+import { cards } from './cards';
+import FlashCard from './components/FlashCard';
+import ProgressBar from './components/ProgressBar';
 
 export default function App() {
-  const [index, setIndex] = useState(0);
-  const [flipped, setFlipped] = useState(false);
+  const [index, setIndex] = useState<number>(0);
+  const [flipped, setFlipped] = useState<boolean>(false);
 
   const total = cards.length;
   const isFirst = index === 0;
   const isLast = index === total - 1;
 
   // Moving to another card always shows its question side first.
-  const goTo = (next) => {
+  const goTo = (next: number): void => {
     setIndex(next);
     setFlipped(false);
   };

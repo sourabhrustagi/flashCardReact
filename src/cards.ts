@@ -1,4 +1,9 @@
-export const cards = [
+export interface Card {
+  question: string;
+  answer: string;
+}
+
+export const cards: Card[] = [
   {
     question: 'What does "typeof null" return in JavaScript?',
     answer: '"object" (a long-standing bug in the language).',

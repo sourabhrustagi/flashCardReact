@@ -1,4 +1,9 @@
-export default function ProgressBar({ current, total }) {
+interface ProgressBarProps {
+  current: number;
+  total: number;
+}
+
+export default function ProgressBar({ current, total }: ProgressBarProps) {
   const percent = total ? Math.round((current / total) * 100) : 0;
 
   return (
