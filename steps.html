@@ -185,8 +185,8 @@ git pull origin main</code></pre>
         <p>If you pulled the repo, one command installs everything listed in <code>package.json</code>:</p>
         <pre><code>npm install</code></pre>
         <p>To build the same dependency list yourself, install the runtime packages and then the dev packages, with pinned versions:</p>
-        <pre><code>npm install react@18.3.1 react-dom@18.3.1
-npm install -D vite@5.4.11 @vitejs/plugin-react@4.3.4 typescript@5.6.3 @types/react@18.3.12 @types/react-dom@18.3.1</code></pre>
+        <pre><code>npm install --save-exact react@18.3.1 react-dom@18.3.1
+npm install --save-exact -D vite@5.4.11 @vitejs/plugin-react@4.3.4 typescript@5.6.3 @types/react@18.3.12 @types/react-dom@18.3.1</code></pre>
       </section>
 
       <section>
@@ -212,40 +212,27 @@ npm install</code></pre>
 
       <section>
         <h2>7. Create the files one by one</h2>
-        <p>Create the folders in the terminal, then create each file below at the path shown and paste its code exactly. Files are listed in the order that keeps imports working.</p>
+        <p>Run the commands for files 1 to 3 in order, in the project folder. Then create files 4 onward at the path shown and paste the code exactly. The order keeps imports working.</p>
         <pre><code>mkdir -p src/types src/data src/hooks src/components</code></pre>
 
-        <h3>1. <code>package.json</code>: scripts and pinned dependencies</h3>
-        <pre><code>{
-  "name": "flash-card",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit &amp;&amp; vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
-  },
-  "devDependencies": {
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1",
-    "@vitejs/plugin-react": "4.3.4",
-    "typescript": "5.6.3",
-    "vite": "5.4.11"
-  }
-}</code></pre>
+        <h3>1. Create <code>package.json</code> and install dependencies</h3>
+        <p>These commands write <code>package.json</code> and install the pinned versions:</p>
+        <pre><code>npm init -y
+npm pkg set name=flash-card version=0.0.0 type=module
+npm pkg set --json private=true
+npm pkg set scripts.dev=vite scripts.build="tsc --noEmit &amp;&amp; vite build" scripts.preview="vite preview"
+npm pkg delete main description keywords author license scripts.test
+npm install --save-exact react@18.3.1 react-dom@18.3.1
+npm install --save-exact -D vite@5.4.11 @vitejs/plugin-react@4.3.4 typescript@5.6.3 @types/react@18.3.12 @types/react-dom@18.3.1</code></pre>
 
-        <h3>2. <code>.gitignore</code>: keep dependencies and build output out of git</h3>
-        <pre><code>node_modules
-dist</code></pre>
+        <h3>2. Create <code>.gitignore</code></h3>
+        <p>Keeps dependencies and build output out of git:</p>
+        <pre><code>printf 'node_modules\ndist\n' &gt; .gitignore</code></pre>
 
-        <h3>3. <code>tsconfig.json</code>: TypeScript settings</h3>
+        <h3>3. Create <code>tsconfig.json</code></h3>
         <p><code>strict</code> turns on full type checking. <code>noEmit</code> means TypeScript only checks types; Vite does the compiling.</p>
-        <pre><code>{
+        <pre><code>cat &gt; tsconfig.json &lt;&lt;'EOF'
+{
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -262,7 +249,8 @@ dist</code></pre>
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"]
-}</code></pre>
+}
+EOF</code></pre>
 
         <h3>4. <code>vite.config.ts</code>: React support and the GitHub Pages base path</h3>
         <pre><code>import { defineConfig } from 'vite';
