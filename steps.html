@@ -143,6 +143,66 @@ git init</code></pre>
       </section>
 
       <section>
+        <h2>6. Create a React project from scratch</h2>
+        <p>This project uses Vite, a fast dev server and bundler. Create one with the official template:</p>
+        <pre><code>npm create vite@latest flash-card -- --template react
+cd flash-card
+npm install
+npm run dev</code></pre>
+        <p>Vite scaffolds <code>index.html</code>, <code>vite.config.js</code>, <code>package.json</code> and a
+          starter <code>src/</code>. This repo replaces the starter files with the app code, and pins versions
+          in <code>package.json</code>.</p>
+        <p class="muted">To create it by hand instead, follow steps 1 to 5 above. Each file is listed with its commit.</p>
+      </section>
+
+      <section>
+        <h2>7. Project architecture</h2>
+        <p>The app is a small component tree with state kept in one place. Data flows down through props, and
+          events flow up through callbacks.</p>
+        <pre><code>flashCard/
+├── index.html              Page shell with the #root element
+├── vite.config.js          Vite setup with the React plugin
+├── package.json            Scripts and pinned dependencies
+├── run.sh                  Installs (if needed) and starts the dev server
+├── steps.html              This page
+└── src/
+    ├── main.jsx            Mounts <App /> into #root
+    ├── App.jsx             Owns app state: current index and flipped flag
+    ├── cards.js            Data: the list of { question, answer } cards
+    ├── index.css           Global styles and theme tokens
+    └── components/
+        ├── FlashCard.jsx   Presents one card; calls onFlip when clicked
+        └── ProgressBar.jsx Shows "Card X of Y" and a fill bar</code></pre>
+
+        <h2>Layers</h2>
+        <table>
+          <thead>
+            <tr><th>Layer</th><th>Where</th><th>Responsibility</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Data</td><td><code>src/cards.js</code></td><td>Plain data. No React imports, so it's easy to edit or replace.</td></tr>
+            <tr><td>State</td><td><code>src/App.jsx</code></td><td>The only stateful component. Holds <code>index</code> and <code>flipped</code>, and exposes actions.</td></tr>
+            <tr><td>Presentation</td><td><code>src/components/</code></td><td>Stateless, reusable components that receive props and call callbacks.</td></tr>
+            <tr><td>Styling</td><td><code>src/index.css</code></td><td>Class-based styles and CSS variables for light and dark themes.</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Rules to keep it simple</h2>
+        <ul>
+          <li>Keep state in <code>App.jsx</code> until a second component needs it, then lift or share it.</li>
+          <li>Components take data and callbacks as props. They don't read <code>cards.js</code> directly, except through <code>App</code>.</li>
+          <li>Moving to another card always resets <code>flipped</code> to <code>false</code>. This is handled in <code>goTo</code>.</li>
+          <li>Add a new feature as a new file in <code>src/components/</code>, then import it in <code>App.jsx</code>.</li>
+        </ul>
+
+        <h2>Data flow</h2>
+        <pre><code>cards.js ──► App (index, flipped)
+               ├── ProgressBar  (current, total)
+               ├── FlashCard    (card, flipped, onFlip)  ──► onFlip toggles flipped
+               └── nav buttons  (goTo, flip)            ──► goTo updates index</code></pre>
+      </section>
+
+      <section>
         <h2>Adding cards</h2>
         <p>Edit the <code>cards</code> array in <code>src/cards.js</code>. Each entry is <code>{ question, answer }</code>.</p>
       </section>
