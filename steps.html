@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flash Card Setup Steps</title>
+    <style>
+      :root {
+        --bg: #f5f6fa;
+        --text: #1f2330;
+        --muted: #6b7280;
+        --card: #ffffff;
+        --accent: #4f46e5;
+        --code: #eef0f6;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --bg: #111827;
+          --text: #f3f4f6;
+          --muted: #9ca3af;
+          --card: #1f2937;
+          --accent: #818cf8;
+          --code: #111827;
+          color-scheme: dark;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+        line-height: 1.6;
+      }
+      main {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 32px 16px;
+      }
+      h1 {
+        margin-top: 0;
+        font-size: 1.75rem;
+      }
+      section {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      }
+      h2 {
+        margin: 0 0 8px;
+        font-size: 1.1rem;
+        color: var(--accent);
+      }
+      p {
+        margin: 8px 0;
+      }
+      pre {
+        background: var(--code);
+        border-radius: 8px;
+        padding: 12px 14px;
+        overflow-x: auto;
+        font-size: 0.9rem;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.9em;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--code);
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Flash Card App: Setup Steps</h1>
+      <p class="muted">Recreates this project from an empty folder. Requires Node 18+ and npm.</p>
+
+      <section>
+        <h2>1. Create the folder and initialize git</h2>
+        <pre><code>mkdir flashCard && cd flashCard
+git init</code></pre>
+      </section>
+
+      <section>
+        <h2>2. Create the files</h2>
+        <p>
+          Create each file with the exact contents from this repo's history. Each file was committed on its own, so
+          use <code>git show &lt;hash&gt;:&lt;path&gt;</code>, for example <code>git show d988b2e:package.json</code>.
+          Or clone this repo and skip to step 3.
+        </p>
+        <table>
+          <thead>
+            <tr><th>File</th><th>Commit</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>.gitignore</code></td><td>69f4d71</td></tr>
+            <tr><td><code>package.json</code></td><td>d988b2e</td></tr>
+            <tr><td><code>package-lock.json</code></td><td>06696ee</td></tr>
+            <tr><td><code>vite.config.js</code></td><td>7f8add2</td></tr>
+            <tr><td><code>index.html</code></td><td>5da20e2</td></tr>
+            <tr><td><code>src/cards.js</code></td><td>e5ad74f</td></tr>
+            <tr><td><code>src/main.jsx</code></td><td>5ab1cce</td></tr>
+            <tr><td><code>src/components/FlashCard.jsx</code></td><td>95b055f</td></tr>
+            <tr><td><code>src/components/ProgressBar.jsx</code></td><td>e3849f4</td></tr>
+            <tr><td><code>src/App.jsx</code></td><td>c99bcdf</td></tr>
+            <tr><td><code>src/index.css</code></td><td>9036d51</td></tr>
+          </tbody>
+        </table>
+        <p class="muted">Commit hashes are from the original history. Your hashes will differ if you commit again.</p>
+      </section>
+
+      <section>
+        <h2>3. Install dependencies</h2>
+        <pre><code>npm install</code></pre>
+        <p>Installs React 18.3.1, Vite 5.4.11 and @vitejs/plugin-react 4.3.4, pinned in package.json.</p>
+      </section>
+
+      <section>
+        <h2>4. Run the app</h2>
+        <pre><code>npm run dev</code></pre>
+        <p>Or run <code>./run.sh</code>, which installs dependencies on first run and then starts the dev server.
+          Open the URL Vite prints, usually http://localhost:5173.</p>
+      </section>
+
+      <section>
+        <h2>5. Build for production</h2>
+        <pre><code>npm run build</code></pre>
+        <p>Output goes to <code>dist/</code>. Preview it with <code>npm run preview</code>.</p>
+      </section>
+
+      <section>
+        <h2>Adding cards</h2>
+        <p>Edit the <code>cards</code> array in <code>src/cards.js</code>. Each entry is <code>{ question, answer }</code>.</p>
+      </section>
+    </main>
+  </body>
+</html>
