@@ -33,6 +33,8 @@
         line-height: 1.6;
       }
       main {
+        flex: 1;
+        min-width: 0;
         max-width: 720px;
         margin: 0 auto;
         padding: 32px 16px;
@@ -52,6 +54,17 @@
         margin: 0 0 8px;
         font-size: 1.1rem;
         color: var(--accent);
+      }
+      h3 {
+        margin: 18px 0 6px;
+        font-size: 1rem;
+      }
+      h2.part {
+        margin: 28px 0 12px;
+        font-size: 1.35rem;
+        color: var(--text);
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 4px;
       }
       p {
         margin: 8px 0;
@@ -81,10 +94,6 @@
       .muted {
         color: var(--muted);
         font-size: 0.9rem;
-      }
-      h3 {
-        margin: 18px 0 6px;
-        font-size: 1rem;
       }
       body {
         display: flex;
@@ -130,10 +139,6 @@
         background: var(--bg);
         color: var(--accent);
       }
-      main {
-        flex: 1;
-        min-width: 0;
-      }
       @media (max-width: 640px) {
         body {
           display: block;
@@ -146,13 +151,6 @@
           border-bottom: 1px solid var(--code);
         }
       }
-      h2.part {
-        margin: 28px 0 12px;
-        font-size: 1.35rem;
-        color: var(--text);
-        border-bottom: 2px solid var(--accent);
-        padding-bottom: 4px;
-      }
     </style>
   </head>
   <body>
@@ -164,7 +162,7 @@
     </aside>
     <main>
       <h1>Flash Card App: Setup Steps</h1>
-      <p class="muted">Recreates this project from an empty folder. Requires Node 18+ and npm.</p>
+      <p class="muted">Builds the flash card app from an empty folder to the final TypeScript project. Requires Node 18+ and npm.</p>
 
       <h2 class="part">Part 1: Hello World React project</h2>
 
@@ -191,84 +189,111 @@ npm install</code></pre>
         <p>Open http://localhost:5173 and you should see "Hello, World!". Stop the server with <code>Ctrl+C</code>.</p>
       </section>
 
-      <h2 class="part">Part 2: Flash card app</h2>
+      <h2 class="part">Part 2: Flash card app (TypeScript)</h2>
 
       <section>
         <h2>1. Create the folder and initialize git</h2>
-        <pre><code>mkdir flashCard && cd flashCard
+        <pre><code>mkdir flashCard &amp;&amp; cd flashCard
 git init</code></pre>
       </section>
 
       <section>
         <h2>2. Get the source code in the terminal</h2>
-        <p>Connect the folder to the GitHub repo and pull the app files, including <code>.gitignore</code>, <code>package.json</code>, <code>vite.config.js</code>, <code>index.html</code> and <code>src/</code>:</p>
+        <p>Connect the folder to the GitHub repo and pull the app files:</p>
         <pre><code>git remote add origin https://github.com/sourabhrustagi/flashCardReact.git
 git pull origin main</code></pre>
+        <p>This gives you the finished project. Steps 3 to 6 explain how to install, run and check it. Step 7 explains how the code is organised, and the file reference shows what each file contains.</p>
       </section>
 
       <section>
         <h2>3. Install dependencies in the terminal</h2>
-        <p>Install the runtime dependencies, then the dev dependencies, with the pinned versions:</p>
+        <p>If you pulled the repo, one command installs everything listed in <code>package.json</code>:</p>
+        <pre><code>npm install</code></pre>
+        <p>To build the same dependency list yourself, install the runtime packages and then the dev packages, with pinned versions:</p>
         <pre><code>npm install react@18.3.1 react-dom@18.3.1
-npm install -D vite@5.4.11 @vitejs/plugin-react@4.3.4</code></pre>
-        <p>Or run <code>npm install</code> to install everything already listed in <code>package.json</code>.</p>
+npm install -D vite@5.4.11 @vitejs/plugin-react@4.3.4 typescript@5.6.3 @types/react@18.3.12 @types/react-dom@18.3.1</code></pre>
       </section>
 
       <section>
         <h2>4. Run the app</h2>
         <pre><code>npm run dev</code></pre>
-        <p>Or run <code>./run.sh</code>, which installs dependencies on first run and then starts the dev server.
-          Open the URL Vite prints, usually http://localhost:5173.</p>
+        <p>Or run <code>./run.sh</code>, which installs dependencies on first run and then starts the dev server. Open the URL Vite prints, usually http://localhost:5173.</p>
       </section>
 
       <section>
-        <h2>5. Build for production</h2>
+        <h2>5. Type-check and build for production</h2>
         <pre><code>npm run build</code></pre>
-        <p>Output goes to <code>dist/</code>. Preview it with <code>npm run preview</code>.</p>
+        <p>The build runs <code>tsc --noEmit</code> first, so type errors fail the build. Then Vite writes the output to <code>dist/</code>. Preview it with <code>npm run preview</code>.</p>
       </section>
 
       <section>
-        <h2>6. Create a React project from scratch</h2>
-        <p>This project uses Vite, a fast dev server and bundler. Create one with the official template:</p>
-        <pre><code>npm create vite@latest flash-card -- --template react
+        <h2>6. Alternative: start from the Vite TypeScript template</h2>
+        <p>If you'd rather start from Vite's own template and then copy the app files over, use:</p>
+        <pre><code>npm create vite@latest flash-card -- --template react-ts
 cd flash-card
-npm install
-npm run dev</code></pre>
-        <p>Vite scaffolds <code>index.html</code>, <code>vite.config.js</code>, <code>package.json</code> and a
-          starter <code>src/</code>. This repo replaces the starter files with the app code, and pins versions
-          in <code>package.json</code>.</p>
-        <p class="muted">To build the same project from the terminal without the template, follow steps 1 to 5 above.</p>
+npm install</code></pre>
+        <p class="muted">Then replace the template's <code>src/</code> with the files from step 7 and delete the template's sample files.</p>
       </section>
 
       <section>
         <h2>7. Project architecture</h2>
-        <p>The app is a small component tree with state kept in one place. Data flows down through props, and
-          events flow up through callbacks.</p>
+        <p>The app is a small component tree. Navigation state lives in one reducer, and components only read values and call actions. Data flows down through props, and events flow up through callbacks.</p>
         <pre><code>flashCard/
-├── index.html              Page shell with the #root element
-├── vite.config.js          Vite setup with the React plugin
-├── package.json            Scripts and pinned dependencies
-├── run.sh                  Installs (if needed) and starts the dev server
-├── steps.html              This page
+├── index.html                  Page shell with the #root element
+├── vite.config.ts              Vite setup with the React plugin and Pages base path
+├── tsconfig.json               TypeScript settings (strict mode)
+├── package.json                Scripts and pinned dependencies
+├── run.sh                      Installs (if needed) and starts the dev server
+├── steps.html                  This page
 └── src/
-    ├── main.tsx            Mounts &lt;App /&gt; into #root
-    ├── App.tsx             Page layout: wires the hook to the components
-    ├── index.css           Global styles and theme tokens
+    ├── main.tsx                Mounts &lt;App /&gt; into #root
+    ├── App.tsx                 Page layout: wires the hook to the components
+    ├── index.css               Global styles and theme tokens
     ├── types/
-    │   └── card.ts         The Card type
+    │   └── card.ts             The Card type
     ├── data/
-    │   └── cards.ts        The list of cards
+    │   └── cards.ts            The list of cards
     ├── hooks/
     │   ├── flashcardsReducer.ts Pure state transitions (next, previous, flip)
     │   └── useFlashcards.ts    Connects the reducer to components
     └── components/
-        ├── FlashCard.tsx   Presents one card; calls onFlip when clicked
-        ├── ProgressBar.tsx Shows "Card X of Y" and a fill bar
-        └── Controls.tsx    Previous, Flip and Next buttons</code></pre>
+        ├── FlashCard.tsx       Presents one card; calls onFlip when clicked
+        ├── ProgressBar.tsx     Shows "Card X of Y" and a fill bar
+        └── Controls.tsx        Previous, Flip and Next buttons</code></pre>
 
-        <h2>File by file</h2>
-        <p>Create the folders in the terminal, then create each file at the path shown and write the content exactly as below:</p>
-        <pre><code>mkdir -p src/components</code></pre>
+        <h2>Layers</h2>
+        <table>
+          <thead>
+            <tr><th>Layer</th><th>Where</th><th>Responsibility</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Types</td><td><code>src/types/</code></td><td>Shared shapes, such as <code>Card</code>. No runtime code.</td></tr>
+            <tr><td>Data</td><td><code>src/data/cards.ts</code></td><td>Plain data. No React imports, so it's easy to edit or replace.</td></tr>
+            <tr><td>State</td><td><code>src/hooks/</code></td><td>The reducer holds the rules, and <code>useFlashcards</code> exposes values and actions. The only place that holds state.</td></tr>
+            <tr><td>Presentation</td><td><code>src/components/</code></td><td>Stateless, reusable components that receive typed props and call callbacks.</td></tr>
+            <tr><td>Styling</td><td><code>src/index.css</code></td><td>Class-based styles and CSS variables for light and dark themes.</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Rules to keep it simple</h2>
+        <ul>
+          <li>Keep navigation rules in <code>flashcardsReducer.ts</code>. Components should not change <code>index</code> or <code>flipped</code> directly.</li>
+          <li>Components take typed props and callbacks. They don't import <code>cards.ts</code>, so <code>App</code> passes them the current card.</li>
+          <li>Moving to another card always resets <code>flipped</code> to <code>false</code>. The reducer does this in the <code>next</code> and <code>previous</code> cases.</li>
+          <li>Add a new feature as a new file in <code>src/components/</code>, then import it in <code>App.tsx</code>.</li>
+        </ul>
+
+        <h2>Data flow</h2>
+        <pre><code>data/cards.ts ──► flashcardsReducer ──► useFlashcards (values, actions)
+                                              │
+                                             App
+               ├── ProgressBar  (current, total)
+               ├── FlashCard    (card, flipped, onFlip)  ──► flip() toggles flipped
+               └── Controls     (flipped, isFirst, isLast, onPrevious, onFlip, onNext)</code></pre>
+
+        <h2>File reference</h2>
+        <p>Create the folders in the terminal, then create each file at the path shown and write the content exactly as below. If you pulled the repo in step 2, the files already exist and this is only a reference:</p>
+        <pre><code>mkdir -p src/types src/data src/hooks src/components</code></pre>
 
         <h3><code>package.json</code>: scripts and pinned dependencies</h3>
         <pre><code>{
@@ -278,7 +303,7 @@ npm run dev</code></pre>
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc --noEmit &amp;&amp; vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -286,7 +311,10 @@ npm run dev</code></pre>
     "react-dom": "18.3.1"
   },
   "devDependencies": {
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
     "@vitejs/plugin-react": "4.3.4",
+    "typescript": "5.6.3",
     "vite": "5.4.11"
   }
 }</code></pre>
@@ -295,12 +323,35 @@ npm run dev</code></pre>
         <pre><code>node_modules
 dist</code></pre>
 
-        <h3><code>vite.config.js</code>: enables React support in Vite</h3>
+        <h3><code>tsconfig.json</code>: TypeScript settings</h3>
+        <p><code>strict</code> turns on full type checking. <code>noEmit</code> means TypeScript only checks types; Vite does the compiling.</p>
+        <pre><code>{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}</code></pre>
+
+        <h3><code>vite.config.ts</code>: React support and the GitHub Pages base path</h3>
         <pre><code>import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  // GitHub Pages serves the project at /flashCardReact/; local dev stays at /.
+  base: process.env.GITHUB_ACTIONS ? '/flashCardReact/' : '/',
 });</code></pre>
 
         <h3><code>index.html</code>: the page shell that loads the app</h3>
@@ -313,25 +364,33 @@ export default defineConfig({
   &lt;/head&gt;
   &lt;body&gt;
     &lt;div id="root"&gt;&lt;/div&gt;
-    &lt;script type="module" src="/src/main.jsx"&gt;&lt;/script&gt;
+    &lt;script type="module" src="/src/main.tsx"&gt;&lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-        <h3><code>src/main.jsx</code>: mounts App into the page</h3>
+        <h3><code>src/main.tsx</code>: mounts App into the page</h3>
         <pre><code>import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App.jsx';
+import App from './App';
 import './index.css';
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root') as HTMLElement).render(
   &lt;StrictMode&gt;
     &lt;App /&gt;
   &lt;/StrictMode&gt;,
 );</code></pre>
 
-        <h3><code>src/cards.js</code>: the flash card data</h3>
+        <h3><code>src/types/card.ts</code>: the Card type</h3>
+        <pre><code>export interface Card {
+  question: string;
+  answer: string;
+}</code></pre>
+
+        <h3><code>src/data/cards.ts</code>: the flash card data</h3>
         <p>Each card is an object with a <code>question</code> and an <code>answer</code>. The repo has 8 cards; this shows the first two. Add more entries in the same shape:</p>
-        <pre><code>export const cards = [
+        <pre><code>import type { Card } from '../types/card';
+
+export const cards: Card[] = [
   {
     question: 'What does "typeof null" return in JavaScript?',
     answer: '"object" (a long-standing bug in the language).',
@@ -343,25 +402,79 @@ createRoot(document.getElementById('root')).render(
   // add more { question, answer } objects here
 ];</code></pre>
 
-        <h3><code>src/App.jsx</code>: holds state and the navigation</h3>
-        <pre><code>import { useState } from 'react';
-import { cards } from './cards.js';
-import FlashCard from './components/FlashCard.jsx';
-import ProgressBar from './components/ProgressBar.jsx';
+        <h3><code>src/hooks/flashcardsReducer.ts</code>: pure state transitions</h3>
+        <pre><code>import { cards } from '../data/cards';
+
+export interface FlashcardsState {
+  index: number;
+  flipped: boolean;
+}
+
+export type FlashcardsAction = { type: 'next' } | { type: 'previous' } | { type: 'flip' };
+
+export const initialFlashcardsState: FlashcardsState = { index: 0, flipped: false };
+
+// Pure: same state and action always give the same result, so it is easy to test.
+export function flashcardsReducer(state: FlashcardsState, action: FlashcardsAction): FlashcardsState {
+  const last = cards.length - 1;
+
+  switch (action.type) {
+    case 'next':
+      if (state.index &gt;= last) return state;
+      // Moving to another card always shows its question side first.
+      return { index: state.index + 1, flipped: false };
+    case 'previous':
+      if (state.index &lt;= 0) return state;
+      return { index: state.index - 1, flipped: false };
+    case 'flip':
+      return { ...state, flipped: !state.flipped };
+  }
+}</code></pre>
+
+        <h3><code>src/hooks/useFlashcards.ts</code>: connects the reducer to components</h3>
+        <pre><code>import { useReducer } from 'react';
+import { cards } from '../data/cards';
+import type { Card } from '../types/card';
+import { flashcardsReducer, initialFlashcardsState } from './flashcardsReducer';
+
+export interface FlashcardsView {
+  card: Card;
+  index: number;
+  total: number;
+  flipped: boolean;
+  isFirst: boolean;
+  isLast: boolean;
+  next: () =&gt; void;
+  previous: () =&gt; void;
+  flip: () =&gt; void;
+}
+
+// Components read values and call actions. All transitions live in flashcardsReducer.
+export function useFlashcards(): FlashcardsView {
+  const [state, dispatch] = useReducer(flashcardsReducer, initialFlashcardsState);
+  const total = cards.length;
+
+  return {
+    card: cards[state.index],
+    index: state.index,
+    total,
+    flipped: state.flipped,
+    isFirst: state.index === 0,
+    isLast: state.index === total - 1,
+    next: () =&gt; dispatch({ type: 'next' }),
+    previous: () =&gt; dispatch({ type: 'previous' }),
+    flip: () =&gt; dispatch({ type: 'flip' }),
+  };
+}</code></pre>
+
+        <h3><code>src/App.tsx</code>: page layout that wires the hook to the components</h3>
+        <pre><code>import { useFlashcards } from './hooks/useFlashcards';
+import FlashCard from './components/FlashCard';
+import ProgressBar from './components/ProgressBar';
+import Controls from './components/Controls';
 
 export default function App() {
-  const [index, setIndex] = useState(0);
-  const [flipped, setFlipped] = useState(false);
-
-  const total = cards.length;
-  const isFirst = index === 0;
-  const isLast = index === total - 1;
-
-  // Moving to another card always shows its question side first.
-  const goTo = (next) =&gt; {
-    setIndex(next);
-    setFlipped(false);
-  };
+  const { card, index, total, flipped, isFirst, isLast, next, previous, flip } = useFlashcards();
 
   return (
     &lt;main className="app"&gt;
@@ -369,29 +482,30 @@ export default function App() {
 
       &lt;ProgressBar current={index + 1} total={total} /&gt;
 
-      &lt;FlashCard
-        card={cards[index]}
-        flipped={flipped}
-        onFlip={() =&gt; setFlipped((f) =&gt; !f)}
-      /&gt;
+      &lt;FlashCard card={card} flipped={flipped} onFlip={flip} /&gt;
 
-      &lt;nav className="controls"&gt;
-        &lt;button onClick={() =&gt; goTo(index - 1)} disabled={isFirst}&gt;
-          Previous
-        &lt;/button&gt;
-        &lt;button onClick={() =&gt; setFlipped((f) =&gt; !f)}&gt;
-          {flipped ? 'Show question' : 'Flip'}
-        &lt;/button&gt;
-        &lt;button onClick={() =&gt; goTo(index + 1)} disabled={isLast}&gt;
-          Next
-        &lt;/button&gt;
-      &lt;/nav&gt;
+      &lt;Controls
+        flipped={flipped}
+        isFirst={isFirst}
+        isLast={isLast}
+        onPrevious={previous}
+        onFlip={flip}
+        onNext={next}
+      /&gt;
     &lt;/main&gt;
   );
 }</code></pre>
 
-        <h3><code>src/components/FlashCard.jsx</code>: one card that flips on click</h3>
-        <pre><code>export default function FlashCard({ card, flipped, onFlip }) {
+        <h3><code>src/components/FlashCard.tsx</code>: one card that flips on click</h3>
+        <pre><code>import type { Card } from '../types/card';
+
+interface FlashCardProps {
+  card: Card;
+  flipped: boolean;
+  onFlip: () =&gt; void;
+}
+
+export default function FlashCard({ card, flipped, onFlip }: FlashCardProps) {
   return (
     &lt;button
       type="button"
@@ -413,8 +527,13 @@ export default function App() {
   );
 }</code></pre>
 
-        <h3><code>src/components/ProgressBar.jsx</code>: "Card X of Y" and a fill bar</h3>
-        <pre><code>export default function ProgressBar({ current, total }) {
+        <h3><code>src/components/ProgressBar.tsx</code>: "Card X of Y" and a fill bar</h3>
+        <pre><code>interface ProgressBarProps {
+  current: number;
+  total: number;
+}
+
+export default function ProgressBar({ current, total }: ProgressBarProps) {
   const percent = total ? Math.round((current / total) * 100) : 0;
 
   return (
@@ -432,6 +551,30 @@ export default function App() {
         &lt;div className="progress-fill" style={{ width: `${percent}%` }} /&gt;
       &lt;/div&gt;
     &lt;/div&gt;
+  );
+}</code></pre>
+
+        <h3><code>src/components/Controls.tsx</code>: Previous, Flip and Next buttons</h3>
+        <pre><code>interface ControlsProps {
+  flipped: boolean;
+  isFirst: boolean;
+  isLast: boolean;
+  onPrevious: () =&gt; void;
+  onFlip: () =&gt; void;
+  onNext: () =&gt; void;
+}
+
+export default function Controls({ flipped, isFirst, isLast, onPrevious, onFlip, onNext }: ControlsProps) {
+  return (
+    &lt;nav className="controls"&gt;
+      &lt;button onClick={onPrevious} disabled={isFirst}&gt;
+        Previous
+      &lt;/button&gt;
+      &lt;button onClick={onFlip}&gt;{flipped ? 'Show question' : 'Flip'}&lt;/button&gt;
+      &lt;button onClick={onNext} disabled={isLast}&gt;
+        Next
+      &lt;/button&gt;
+    &lt;/nav&gt;
   );
 }</code></pre>
 
@@ -593,136 +736,11 @@ body {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
 }</code></pre>
-
-        <h2>Layers</h2>
-        <table>
-          <thead>
-            <tr><th>Layer</th><th>Where</th><th>Responsibility</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Types</td><td><code>src/types/</code></td><td>Shared shapes, such as <code>Card</code>. No runtime code.</td></tr>
-            <tr><td>Data</td><td><code>src/data/cards.ts</code></td><td>Plain data. No React imports, so it's easy to edit or replace.</td></tr>
-            <tr><td>State</td><td><code>src/hooks/useFlashcards.ts</code></td><td>Owns <code>index</code> and <code>flipped</code>, and exposes the values and actions. The only place that holds state.</td></tr>
-            <tr><td>Presentation</td><td><code>src/components/</code></td><td>Stateless, reusable components that receive props and call callbacks.</td></tr>
-            <tr><td>Styling</td><td><code>src/index.css</code></td><td>Class-based styles and CSS variables for light and dark themes.</td></tr>
-          </tbody>
-        </table>
-
-        <h2>Rules to keep it simple</h2>
-        <ul>
-          <li>Keep state in <code>useFlashcards</code>. Components get values through props and call actions through callbacks.</li>
-          <li>Components take data and callbacks as props. They don't read <code>cards.js</code> directly, except through <code>App</code>.</li>
-          <li>Moving to another card always resets <code>flipped</code> to <code>false</code>. This is handled in <code>goTo</code>.</li>
-          <li>Add a new feature as a new file in <code>src/components/</code>, then import it in <code>App.tsx</code>.</li>
-        </ul>
-
-        <h2>Data flow</h2>
-        <pre><code>data/cards.ts ──► useFlashcards (index, flipped, actions)
-                        │
-                       App
-               ├── ProgressBar  (current, total)
-               ├── FlashCard    (card, flipped, onFlip)  ──► flip() toggles flipped
-               └── Controls     (flipped, isFirst, isLast, onPrevious, onFlip, onNext)</code></pre>
-      </section>
-
-      <h2 class="part">Part 3: Convert the project to TypeScript</h2>
-      <p class="muted">Do this after Part 2. The JavaScript versions of the files in step 7 are the starting point. Part 3 replaces them.</p>
-
-      <section>
-        <h2>T1. Rename the source files</h2>
-        <p>Use <code>git mv</code> so git tracks the renames:</p>
-        <pre><code>git mv src/cards.js src/cards.ts
-git mv src/main.jsx src/main.tsx
-git mv src/App.jsx src/App.tsx
-git mv src/components/FlashCard.jsx src/components/FlashCard.tsx
-git mv src/components/ProgressBar.jsx src/components/ProgressBar.tsx
-git mv vite.config.js vite.config.ts</code></pre>
-        <p>Then change the script in <code>index.html</code> to load the TypeScript entry:</p>
-        <pre><code>&lt;script type="module" src="/src/main.tsx"&gt;&lt;/script&gt;</code></pre>
-      </section>
-
-      <section>
-        <h2>T2. Install TypeScript and the React type packages</h2>
-        <pre><code>npm install -D typescript@5.6.3 @types/react@18.3.12 @types/react-dom@18.3.1</code></pre>
-        <p>The versions are pinned to match the rest of <code>package.json</code>.</p>
-      </section>
-
-      <section>
-        <h2>T3. Add <code>tsconfig.json</code></h2>
-        <p>Create this file in the project root. <code>strict</code> turns on full type checking. <code>noEmit</code> means TypeScript only checks types; Vite does the compiling.</p>
-        <pre><code>{
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src"]
-}</code></pre>
-      </section>
-
-      <section>
-        <h2>T4. Add types to the code</h2>
-        <p>Define the card shape once in <code>src/cards.ts</code> and type the list:</p>
-        <pre><code>export interface Card {
-  question: string;
-  answer: string;
-}
-
-export const cards: Card[] = [
-  // same entries as before
-];</code></pre>
-        <p>Each component gets a props interface. In <code>src/components/FlashCard.tsx</code>:</p>
-        <pre><code>import type { Card } from '../cards';
-
-interface FlashCardProps {
-  card: Card;
-  flipped: boolean;
-  onFlip: () =&gt; void;
-}
-
-export default function FlashCard({ card, flipped, onFlip }: FlashCardProps) {
-  // same JSX as before
-}</code></pre>
-        <p>In <code>src/components/ProgressBar.tsx</code>, add the same pattern with <code>current: number</code> and <code>total: number</code>.</p>
-        <p>In <code>src/App.tsx</code>, type the state and the <code>goTo</code> function:</p>
-        <pre><code>const [index, setIndex] = useState&lt;number&gt;(0);
-const [flipped, setFlipped] = useState&lt;boolean&gt;(false);
-
-const goTo = (next: number): void =&gt; {
-  setIndex(next);
-  setFlipped(false);
-};</code></pre>
-        <p>In <code>src/main.tsx</code>, <code>getElementById</code> can return <code>null</code>, so cast it:</p>
-        <pre><code>createRoot(document.getElementById('root') as HTMLElement).render(</code></pre>
-        <p>Update imports to drop the <code>.js</code> and <code>.jsx</code> extensions, for example <code>import App from './App';</code>.</p>
-      </section>
-
-      <section>
-        <h2>T5. Type-check in the build</h2>
-        <p>In <code>package.json</code>, run the type check before the Vite build:</p>
-        <pre><code>"build": "tsc --noEmit &amp;&amp; vite build"</code></pre>
-      </section>
-
-      <section>
-        <h2>T6. Run it</h2>
-        <pre><code>npm run build
-npm run dev</code></pre>
-        <p>The build fails if there are type errors. Fix them, then open http://localhost:5173 and check the cards still flip and navigate.</p>
       </section>
 
       <section>
         <h2>Adding cards</h2>
-        <p>Edit the <code>cards</code> array in <code>src/cards.ts</code> (or <code>src/cards.js</code> before Part 3). Each entry is <code>{ question, answer }</code>.</p>
+        <p>Edit the <code>cards</code> array in <code>src/data/cards.ts</code>. Each entry is <code>{ question, answer }</code>, and TypeScript checks the shape at build time.</p>
       </section>
     </main>
     <script>
