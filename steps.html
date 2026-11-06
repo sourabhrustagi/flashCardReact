@@ -253,7 +253,9 @@ npm install --save-exact -D vite@5.4.11 @vitejs/plugin-react@4.3.4 typescript@5.
 EOF</code></pre>
 
         <h3>4. <code>vite.config.ts</code>: React support and the GitHub Pages base path</h3>
-        <p>If you already have a <code>vite.config.js</code> from the JavaScript version, convert it instead of creating a new file. Rename it first:</p>
+        <p>If you already have a <code>vite.config.js</code> from the JavaScript version, convert it instead of creating a new file. Check which file exists:</p>
+        <pre><code>ls vite.config.*</code></pre>
+        <p>If it lists <code>vite.config.js</code>, rename it. If it already lists <code>vite.config.ts</code> (for example after <code>git pull</code>), skip the rename and go straight to the code below. The rename command fails with <code>bad source</code> when there is no <code>vite.config.js</code>.</p>
         <pre><code>git mv vite.config.js vite.config.ts</code></pre>
         <p>Then replace its contents with the code below. The only change is the extension and the code's types: <code>defineConfig</code> already types the config object, so no extra annotations are needed. Vite reads <code>.ts</code> config files without any other setup.</p>
         <pre><code>import { defineConfig } from 'vite';
