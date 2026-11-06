@@ -82,12 +82,46 @@
         color: var(--muted);
         font-size: 0.9rem;
       }
+      h2.part {
+        margin: 28px 0 12px;
+        font-size: 1.35rem;
+        color: var(--text);
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 4px;
+      }
     </style>
   </head>
   <body>
     <main>
       <h1>Flash Card App: Setup Steps</h1>
       <p class="muted">Recreates this project from an empty folder. Requires Node 18+ and npm.</p>
+
+      <h2 class="part">Part 1: Hello World React project</h2>
+
+      <section>
+        <h2>A1. Create the project</h2>
+        <pre><code>npm create vite@latest hello-world -- --template react
+cd hello-world
+npm install</code></pre>
+        <p>Pick <code>react</code> if the template prompt appears. This creates a Vite project with React and the default starter files.</p>
+      </section>
+
+      <section>
+        <h2>A2. Replace the starter with Hello World</h2>
+        <p>Replace the contents of <code>src/App.jsx</code> with:</p>
+        <pre><code>export default function App() {
+  return &lt;h1&gt;Hello, World!&lt;/h1&gt;;
+}</code></pre>
+        <p>Delete <code>src/App.css</code> and the <code>import './App.css'</code> line if you don't need them.</p>
+      </section>
+
+      <section>
+        <h2>A3. Run it</h2>
+        <pre><code>npm run dev</code></pre>
+        <p>Open http://localhost:5173 and you should see "Hello, World!". Stop the server with <code>Ctrl+C</code>.</p>
+      </section>
+
+      <h2 class="part">Part 2: Flash card app</h2>
 
       <section>
         <h2>1. Create the folder and initialize git</h2>
