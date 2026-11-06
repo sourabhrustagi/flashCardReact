@@ -259,7 +259,8 @@ npm run dev</code></pre>
     ├── data/
     │   └── cards.ts        The list of cards
     ├── hooks/
-    │   └── useFlashcards.ts Navigation state and actions
+    │   ├── flashcardsReducer.ts Pure state transitions (next, previous, flip)
+    │   └── useFlashcards.ts    Connects the reducer to components
     └── components/
         ├── FlashCard.tsx   Presents one card; calls onFlip when clicked
         ├── ProgressBar.tsx Shows "Card X of Y" and a fill bar

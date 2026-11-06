@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { cards } from '../data/cards';
 import type { Card } from '../types/card';
+import { flashcardsReducer, initialFlashcardsState } from './flashcardsReducer';
 
-export interface FlashcardsState {
+export interface FlashcardsView {
   card: Card;
   index: number;
   total: number;
@@ -14,28 +15,20 @@ export interface FlashcardsState {
   flip: () => void;
 }
 
-// Owns all card navigation state. Components only read values and call actions.
-export function useFlashcards(): FlashcardsState {
-  const [index, setIndex] = useState<number>(0);
-  const [flipped, setFlipped] = useState<boolean>(false);
-
+// Components read values and call actions. All transitions live in flashcardsReducer.
+export function useFlashcards(): FlashcardsView {
+  const [state, dispatch] = useReducer(flashcardsReducer, initialFlashcardsState);
   const total = cards.length;
 
-  // Moving to another card always shows its question side first.
-  const goTo = (next: number): void => {
-    setIndex(next);
-    setFlipped(false);
-  };
-
   return {
-    card: cards[index],
-    index,
+    card: cards[state.index],
+    index: state.index,
     total,
-    flipped,
-    isFirst: index === 0,
-    isLast: index === total - 1,
-    next: () => goTo(index + 1),
-    previous: () => goTo(index - 1),
-    flip: () => setFlipped((f) => !f),
+    flipped: state.flipped,
+    isFirst: state.index === 0,
+    isLast: state.index === total - 1,
+    next: () => dispatch({ type: 'next' }),
+    previous: () => dispatch({ type: 'previous' }),
+    flip: () => dispatch({ type: 'flip' }),
   };
 }
