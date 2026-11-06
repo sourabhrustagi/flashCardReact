@@ -236,7 +236,7 @@ npm install</code></pre>
         ├── ProgressBar.tsx     Shows "Card X of Y" and a fill bar
         └── Controls.tsx        Previous, Flip and Next buttons</code></pre>
 
-        <h2>Layers</h2>
+        <h3>Layers</h3>
         <table>
           <thead>
             <tr><th>Layer</th><th>Where</th><th>Responsibility</th></tr>
@@ -250,7 +250,7 @@ npm install</code></pre>
           </tbody>
         </table>
 
-        <h2>Rules to keep it simple</h2>
+        <h3>Rules to keep it simple</h3>
         <ul>
           <li>Keep navigation rules in <code>flashcardsReducer.ts</code>. Components should not change <code>index</code> or <code>flipped</code> directly.</li>
           <li>Components take typed props and callbacks. They don't import <code>cards.ts</code>, so <code>App</code> passes them the current card.</li>
@@ -258,7 +258,7 @@ npm install</code></pre>
           <li>Add a new feature as a new file in <code>src/components/</code>, then import it in <code>App.tsx</code>.</li>
         </ul>
 
-        <h2>Data flow</h2>
+        <h3>Data flow</h3>
         <pre><code>data/cards.ts ──► flashcardsReducer ──► useFlashcards (values, actions)
                                               │
                                              App
@@ -266,7 +266,7 @@ npm install</code></pre>
                ├── FlashCard    (card, flipped, onFlip)  ──► flip() toggles flipped
                └── Controls     (flipped, isFirst, isLast, onPrevious, onFlip, onNext)</code></pre>
 
-        <h2>File reference</h2>
+        <h3>File reference</h3>
         <p>Create the folders in the terminal, then create each file at the path shown and write the content exactly as below. If you pulled the repo in step 2, the files already exist and this is only a reference:</p>
         <pre><code>mkdir -p src/types src/data src/hooks src/components</code></pre>
 
