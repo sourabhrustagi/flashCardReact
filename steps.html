@@ -196,6 +196,26 @@ npm install --save-exact -D vite@5.4.11 @vitejs/plugin-react@4.3.4 typescript@5.
       </section>
 
       <section>
+        <h2>4a. Convert <code>main.jsx</code> to <code>main.tsx</code> (only if <code>main.jsx</code> exists)</h2>
+        <p>Check which entry file exists:</p>
+        <pre><code>ls src/main.*</code></pre>
+        <p>If it lists <code>src/main.jsx</code>, rename it. If it already lists <code>src/main.tsx</code>, skip this section. The rename fails with <code>bad source</code> when there is no <code>src/main.jsx</code>.</p>
+        <pre><code>git mv src/main.jsx src/main.tsx</code></pre>
+        <p>Then replace its contents with the code below. The file's JSX stays the same. The TypeScript change is the cast on <code>getElementById</code>, because it can return <code>null</code>. Also remove the <code>.jsx</code> extension from imports, as shown:</p>
+        <pre><code>import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './index.css';
+
+createRoot(document.getElementById('root') as HTMLElement).render(
+  &lt;StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/StrictMode&gt;,
+);</code></pre>
+        <p>The same applies to any other <code>.jsx</code> file. Rename it with <code>git mv</code>, then add types to its props and state as in step 7.</p>
+      </section>
+
+      <section>
         <h2>5. Type-check and build for production</h2>
         <pre><code>npm run build</code></pre>
         <p>The build runs <code>tsc --noEmit</code> first, so type errors fail the build. Then Vite writes the output to <code>dist/</code>. Preview it with <code>npm run preview</code>.</p>
